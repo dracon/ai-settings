@@ -4,6 +4,8 @@
   "description": "Security-restricted project with AI assistant protections",
   "permission": {
     "read": {
+      "*.env": "deny",
+      "*.env.*": "deny",
       ".env": "deny",
       ".env.local": "deny",
       ".env.*.local": "deny",
@@ -32,6 +34,8 @@
       "*token*": "deny"
     },
     "write": {
+      "*.env": "deny",
+      "*.env.*": "deny",
       ".env": "deny",
       ".env.local": "deny",
       ".env.*.local": "deny",
@@ -60,6 +64,8 @@
       "*token*": "deny"
     },
     "execute": {
+      "*.env": "deny",
+      "*.env.*": "deny",
       ".env": "deny",
       ".env.local": "deny",
       ".env.*.local": "deny",
