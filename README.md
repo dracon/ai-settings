@@ -32,6 +32,14 @@ All configuration files in this repository are created and maintained through Cl
 - **Scope**: Applied automatically to all users cloning the repository
 - **Coverage**: Environment files, configs, secrets, keys, sensitive patterns
 
+#### `.zed/settings.json`
+- **Purpose**: Security permission rules for Zed AI assistant
+- **Type**: Machine-readable JSON configuration with security schema
+- **Effect**: Blocks Read, Edit, and Write operations on sensitive files
+- **Scope**: Applied automatically when Zed operates in this project
+- **Coverage**: Environment files, configs, secrets, keys, certificate patterns
+- **Features**: Includes security blocklist with glob pattern matching for keys
+
 #### `opencode.json`
 - **Purpose**: Comprehensive security rules for OpenCode AI assistant
 - **Type**: Structured JSON configuration with security metadata
@@ -237,6 +245,8 @@ ai-settings/
 ├── AI_SECURITY_GUIDE.html         # Interactive guide for team members
 ├── .claude/
 │   └── settings.json             # Claude Code security rules
+├── .zed/
+│   └── settings.json            # Zed AI security rules
 ├── opencode.json                 # OpenCode security configuration
 ├── .copilot-instructions         # GitHub Copilot guidelines
 └── .gitignore                    # Git protection patterns
@@ -244,18 +254,18 @@ ai-settings/
 
 ## AI Assistant Configuration Comparison
 
-| Feature | Claude Code | OpenCode | GitHub Copilot | Git |
-|---------|-------------|----------|----------------|-----|
-| **Configuration File** | `.claude/settings.json` | `opencode.json` | `.copilot-instructions` | `.gitignore` |
-| **Format** | JSON (permissions list) | JSON (structured) | Text (guidelines) | Text (patterns) |
-| **Enforcement Level** | Hard block | Hard block | Soft guidance | Prevent commits |
-| **Read Protection** | ✓ | ✓ | ✓ | N/A |
-| **Write Protection** | ✓ | ✓ | ✓ | ✓ |
-| **Execute Protection** | N/A | ✓ | N/A | N/A |
-| **Team Scope** | All users | All users | All users | All users |
-| **Metadata Support** | ✗ | ✓ | N/A | N/A |
-| **File Patterns** | Glob patterns | Path patterns | Text references | Glob patterns |
-| **Commitment Level** | Project-wide | Project-wide | Per-user setting | Project-wide |
+| Feature | Claude Code | Zed | OpenCode | GitHub Copilot | Git |
+|---------|-------------|-----|----------|----------------|-----|
+| **Configuration File** | `.claude/settings.json` | `.zed/settings.json` | `opencode.json` | `.copilot-instructions` | `.gitignore` |
+| **Format** | JSON (permissions list) | JSON (permissions + security schema) | JSON (structured) | Text (guidelines) | Text (patterns) |
+| **Enforcement Level** | Hard block | Hard block | Hard block | Soft guidance | Prevent commits |
+| **Read Protection** | ✓ | ✓ | ✓ | ✓ | N/A |
+| **Write Protection** | ✓ | ✓ | ✓ | ✓ | ✓ |
+| **Execute Protection** | N/A | N/A | ✓ | N/A | N/A |
+| **Team Scope** | All users | All users | All users | All users | All users |
+| **Metadata Support** | ✗ | ✓ | ✓ | N/A | N/A |
+| **File Patterns** | Glob patterns | Glob patterns | Path patterns | Text references | Glob patterns |
+| **Commitment Level** | Project-wide | Project-wide | Project-wide | Per-user setting | Project-wide |
 
 ## FAQ
 
