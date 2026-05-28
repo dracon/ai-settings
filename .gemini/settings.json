@@ -1,0 +1,16 @@
+{
+  "advanced": {
+    "ignoreLocalEnv": true
+  },
+  "security": {
+    "environmentVariableRedaction": {
+      "enabled": true
+    }
+  },
+  "context": {
+    "fileFiltering": {
+      "respectGeminiIgnore": true,
+      "respectGitIgnore": true
+    }
+  }
+}

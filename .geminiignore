@@ -1,0 +1,8 @@
+# Restrict access to environment and secret files (mirrored from .claude/settings.json)
+.env
+.env.local
+.env.*.local
+appsettings.json
+appsettings.*.json
+**/secrets/**
+**/.secrets/**

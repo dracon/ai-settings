@@ -32,6 +32,14 @@ All configuration files in this repository are created and maintained through Cl
 - **Scope**: Applied automatically to all users cloning the repository
 - **Coverage**: Environment files, configs, secrets, keys, sensitive patterns
 
+#### `.gemini/settings.json` & `.geminiignore`
+- **Purpose**: Security policies and file ignoring for Gemini CLI
+- **Type**: JSON configuration and text-based ignore patterns
+- **Effect**: Blocks access to sensitive files and redacts environment variables
+- **Scope**: Project-level security for Gemini CLI
+- **Coverage**: Environment files, configs, secrets, keys, sensitive patterns
+- **Features**: Includes environment variable redaction and mandatory ignore patterns
+
 #### `.zed/settings.json`
 - **Purpose**: Security permission rules for Zed AI assistant
 - **Type**: Machine-readable JSON configuration with security schema
@@ -175,6 +183,13 @@ This showcases how AI can be used to implement security best practices, even whe
 - **Operations**: Read, Write, Edit
 - **Scope**: Applied automatically to all users
 
+### Gemini CLI Protection
+- **Type**: Multi-layered protection (Ignore patterns + Settings)
+- **Configuration**: `.geminiignore` for exclusion and `.gemini/settings.json` for security toggles
+- **Enforcement**: Excludes files from discovery and redacts secrets in environment variables
+- **Operations**: Read, Write, Discovery
+- **Scope**: Project-level security for Gemini CLI
+
 ### OpenCode Protection
 - **Type**: Structured permission-based blocking
 - **Configuration**: Declarative JSON with security layer metadata
@@ -208,6 +223,15 @@ echo "SECRET=test123" > .env
 
 # Try to use Claude Code to read it
 # Expected: Permission denied error
+```
+
+### Test Gemini CLI Access Blocking
+```bash
+# Create a test .env file (if not already there)
+echo "SECRET=test123" > .env
+
+# Try to use Gemini CLI to list files or read it
+# Expected: File is ignored and not visible to tools
 ```
 
 ### Test Git Protection
@@ -245,6 +269,9 @@ ai-settings/
 ├── AI_SECURITY_GUIDE.html         # Interactive guide for team members
 ├── .claude/
 │   └── settings.json             # Claude Code security rules
+├── .gemini/
+│   └── settings.json            # Gemini CLI security rules
+├── .geminiignore                 # Gemini CLI ignore patterns
 ├── .zed/
 │   └── settings.json            # Zed AI security rules
 ├── opencode.json                 # OpenCode security configuration
@@ -254,18 +281,18 @@ ai-settings/
 
 ## AI Assistant Configuration Comparison
 
-| Feature | Claude Code | Zed | OpenCode | GitHub Copilot | Git |
-|---------|-------------|-----|----------|----------------|-----|
-| **Configuration File** | `.claude/settings.json` | `.zed/settings.json` | `opencode.json` | `.copilot-instructions` | `.gitignore` |
-| **Format** | JSON (permissions list) | JSON (permissions + security schema) | JSON (structured) | Text (guidelines) | Text (patterns) |
-| **Enforcement Level** | Hard block | Hard block | Hard block | Soft guidance | Prevent commits |
-| **Read Protection** | ✓ | ✓ | ✓ | ✓ | N/A |
-| **Write Protection** | ✓ | ✓ | ✓ | ✓ | ✓ |
-| **Execute Protection** | N/A | N/A | ✓ | N/A | N/A |
-| **Team Scope** | All users | All users | All users | All users | All users |
-| **Metadata Support** | ✗ | ✓ | ✓ | N/A | N/A |
-| **File Patterns** | Glob patterns | Glob patterns | Path patterns | Text references | Glob patterns |
-| **Commitment Level** | Project-wide | Project-wide | Project-wide | Per-user setting | Project-wide |
+| Feature | Claude Code | Gemini CLI | Zed | OpenCode | GitHub Copilot | Git |
+|---------|-------------|------------|-----|----------|----------------|-----|
+| **Configuration File** | `.claude/settings.json` | `.gemini/settings.json`, `.geminiignore` | `.zed/settings.json` | `opencode.json` | `.copilot-instructions` | `.gitignore` |
+| **Format** | JSON (permissions list) | JSON + Text | JSON (permissions + security schema) | JSON (structured) | Text (guidelines) | Text (patterns) |
+| **Enforcement Level** | Hard block | Hard block (via ignore) | Hard block | Hard block | Soft guidance | Prevent commits |
+| **Read Protection** | ✓ | ✓ | ✓ | ✓ | ✓ | N/A |
+| **Write Protection** | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| **Execute Protection** | N/A | N/A | N/A | ✓ | N/A | N/A |
+| **Team Scope** | All users | All users | All users | All users | All users | All users |
+| **Metadata Support** | ✗ | ✗ | ✓ | ✓ | N/A | N/A |
+| **File Patterns** | Glob patterns | Glob patterns | Glob patterns | Path patterns | Text references | Glob patterns |
+| **Commitment Level** | Project-wide | Project-wide | Project-wide | Project-wide | Per-user setting | Project-wide |
 
 ## FAQ
 
