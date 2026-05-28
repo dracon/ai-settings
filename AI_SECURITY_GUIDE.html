@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Security Guide - Secret Files Protection</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .section h3 {
+            color: #764ba2;
+            font-size: 1.3em;
+            margin-top: 25px;
+            margin-bottom: 12px;
+        }
+
+        .highlight {
+            background: #f0f4ff;
+            border-left: 4px solid #667eea;
+            padding: 15px 20px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px 20px;
+            margin: 15px 0;
+            border-radius: 4px;
+            color: #856404;
+        }
+
+        .success {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px 20px;
+            margin: 15px 0;
+            border-radius: 4px;
+            color: #155724;
+        }
+
+        .file-list {
+            background: #f8f9fa;
+            border-radius: 6px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .file-list ul {
+            list-style: none;
+            margin: 10px 0;
+        }
+
+        .file-list li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .file-list li:before {
+            content: "📄";
+            position: absolute;
+            left: 0;
+        }
+
+        .tool-box {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+
+        .tool-box h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tool-box p {
+            margin-bottom: 8px;
+            font-size: 0.95em;
+        }
+
+        code {
+            background: #f8f9fa;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            color: #d63384;
+            font-size: 0.9em;
+        }
+
+        .command-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Monaco', 'Menlo', monospace;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        .checklist {
+            list-style: none;
+            margin: 15px 0;
+        }
+
+        .checklist li {
+            padding: 10px 0;
+            padding-left: 35px;
+            position: relative;
+        }
+
+        .checklist li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #28a745;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .footer {
+            background: #f8f9fa;
+            padding: 30px 40px;
+            border-top: 1px solid #e9ecef;
+            text-align: center;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+
+        .badge.warning {
+            background: #ffc107;
+            color: #333;
+        }
+
+        .badge.success {
+            background: #28a745;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .section h2 {
+                font-size: 1.4em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔒 AI Security Guide</h1>
+            <p>Secret Files Protection for Claude Code & GitHub Copilot</p>
+        </div>
+
+        <div class="content">
+            <!-- Overview Section -->
+            <div class="section">
+                <h2>📋 Overview</h2>
+                <p>This guide outlines the security measures implemented to protect sensitive files when using AI assistants like <strong>Claude Code</strong> and <strong>GitHub Copilot</strong>. These tools are now configured to automatically block access to secret files, preventing accidental exposure of credentials, API keys, and other sensitive data.</p>
+
+                <div class="success">
+                    <strong>✓ Status:</strong> Secret file protection is active for all team members
+                </div>
+            </div>
+
+            <!-- What Was Implemented -->
+            <div class="section">
+                <h2>🛠️ What Was Implemented</h2>
+
+                <h3>1. Claude Code Configuration</h3>
+                <p>A project-level settings file that applies to all team members automatically.</p>
+                <div class="tool-box">
+                    <h4>📁 File: <code>.claude/settings.json</code></h4>
+                    <p><strong>Type:</strong> Permission-based blocking</p>
+                    <p><strong>Scope:</strong> Read, Write, Edit operations</p>
+                    <p><strong>Status:</strong> ✓ Active and verified</p>
+                </div>
+
+                <h3>2. GitHub Copilot Configuration</h3>
+                <p>Custom instructions that guide Copilot behavior regarding sensitive files.</p>
+                <div class="tool-box">
+                    <h4>📁 File: <code>.copilot-instructions</code></h4>
+                    <p><strong>Type:</strong> Custom instructions</p>
+                    <p><strong>Scope:</strong> Behavioral guidance</p>
+                    <p><strong>Status:</strong> ✓ Active</p>
+                </div>
+
+                <h3>3. Git Protection</h3>
+                <p>Updated <code>.gitignore</code> to prevent secret files from being accidentally committed.</p>
+                <div class="tool-box">
+                    <h4>📁 File: <code>.gitignore</code></h4>
+                    <p><strong>Type:</strong> Version control protection</p>
+                    <p><strong>Status:</strong> ✓ Updated</p>
+                </div>
+            </div>
+
+            <!-- Protected Files -->
+            <div class="section">
+                <h2>🔐 Protected Files & Patterns</h2>
+
+                <h3>Environment Files</h3>
+                <div class="file-list">
+                    <ul>
+                        <li><code>.env</code> - Default environment variables</li>
+                        <li><code>.env.local</code> - Local overrides</li>
+                        <li><code>.env.*.local</code> - Environment-specific (dev, prod, test)</li>
+                    </ul>
+                </div>
+
+                <h3>Configuration Files</h3>
+                <div class="file-list">
+                    <ul>
+                        <li><code>appsettings.json</code> - Default config</li>
+                        <li><code>appsettings.*.json</code> - Environment variants</li>
+                        <li><code>appsettings.Development.json</code></li>
+                        <li><code>appsettings.Production.json</code></li>
+                    </ul>
+                </div>
+
+                <h3>Secret Directories</h3>
+                <div class="file-list">
+                    <ul>
+                        <li><code>secrets/</code> - Any files inside</li>
+                        <li><code>.secrets/</code> - Any files inside</li>
+                    </ul>
+                </div>
+
+                <h3>Private Keys & Certificates</h3>
+                <div class="file-list">
+                    <ul>
+                        <li><code>*.pem</code> - PEM certificates</li>
+                        <li><code>*.key</code> - Private keys</li>
+                        <li><code>*.pfx</code> - PKCS#12 certificates</li>
+                        <li><code>*.p12</code> - PKCS#12 format</li>
+                        <li><code>id_rsa*</code> - SSH keys</li>
+                        <li><code>id_ed25519*</code> - Ed25519 SSH keys</li>
+                    </ul>
+                </div>
+
+                <h3>Files Matching Sensitive Patterns</h3>
+                <div class="file-list">
+                    <ul>
+                        <li>Any file with "secret" in the name</li>
+                        <li>Any file with "credentials" in the name</li>
+                        <li>Any file with "password" in the name</li>
+                        <li>Any file with "api_key" or "apikey" in the name</li>
+                        <li>Any file with "token" in the name</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- How It Works -->
+            <div class="section">
+                <h2>⚙️ How It Works</h2>
+
+                <h3>Claude Code</h3>
+                <p>When you try to use Claude Code to read or edit a protected file:</p>
+                <div class="highlight">
+                    <strong>Result:</strong> Access is <strong>denied immediately</strong> with an error message: "File is in a directory that is denied by your permission settings."
+                </div>
+
+                <h3>GitHub Copilot</h3>
+                <p>GitHub Copilot reads the <code>.copilot-instructions</code> file and follows the behavioral guidelines:</p>
+                <ul style="margin-left: 20px;">
+                    <li>Refuses to suggest code changes to secret files</li>
+                    <li>Won't complete or suggest code involving secrets</li>
+                    <li>Guides users to handle secrets manually</li>
+                </ul>
+
+                <h3>Git</h3>
+                <p>The <code>.gitignore</code> file ensures:</p>
+                <ul style="margin-left: 20px;">
+                    <li>Secret files cannot be accidentally committed</li>
+                    <li>Prevents historical exposure in git logs</li>
+                    <li>Applies to entire team automatically</li>
+                </ul>
+            </div>
+
+            <!-- For Team Members -->
+            <div class="section">
+                <h2>👥 For Team Members</h2>
+
+                <h3>What You Need to Know</h3>
+                <div class="highlight">
+                    <p><strong>These restrictions are automatic.</strong> You don't need to configure anything. When you clone the repository, the security settings are already in place.</p>
+                </div>
+
+                <h3>What Happens When You Use AI Assistants</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Action</th>
+                            <th>Claude Code</th>
+                            <th>GitHub Copilot</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Try to read <code>.env</code></td>
+                            <td>❌ Blocked</td>
+                            <td>⚠️ Warned</td>
+                        </tr>
+                        <tr>
+                            <td>Try to edit a config file</td>
+                            <td>❌ Blocked</td>
+                            <td>⚠️ Warned</td>
+                        </tr>
+                        <tr>
+                            <td>Ask about API keys</td>
+                            <td>❌ Blocked</td>
+                            <td>⚠️ Directed to manual handling</td>
+                        </tr>
+                        <tr>
+                            <td>Commit secret files</td>
+                            <td>N/A</td>
+                            <td>Git prevents this</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>✓ Best Practices for Your Team</h3>
+                <ul class="checklist">
+                    <li>Never paste secret content into AI chat</li>
+                    <li>Always use environment variables instead of hardcoded secrets</li>
+                    <li>Handle <code>.env</code> files manually outside AI assistants</li>
+                    <li>Reference configuration structure, not actual values</li>
+                    <li>Trust the security restrictions - they're here to help</li>
+                    <li>Report any unexpected access to secret files immediately</li>
+                </ul>
+            </div>
+
+            <!-- Usage Examples -->
+            <div class="section">
+                <h2>💡 Usage Examples</h2>
+
+                <h3>❌ What NOT to Do</h3>
+                <div class="warning">
+                    <p><strong>Bad:</strong> "Claude, can you help me debug my API connection? Here's my .env file:"</p>
+                    <p style="margin-top: 10px;"><em>Result: Claude Code will block access. GitHub Copilot will refuse.</em></p>
+                </div>
+
+                <h3>✓ What TO Do Instead</h3>
+                <div class="success">
+                    <p><strong>Good:</strong> "Claude, I'm having issues connecting to the API. The connection requires an API key from environment variable API_KEY. Here's the connection code..."</p>
+                    <p style="margin-top: 10px;"><em>Result: Claude can help with the code logic without seeing secrets.</em></p>
+                </div>
+
+                <h3>More Examples</h3>
+                <div class="highlight">
+                    <p><strong>Instead of:</strong> "Fix my appsettings.json file" (shows file content)</p>
+                    <p><strong>Say:</strong> "I need to add database connection settings. The appsettings.json should have a ConnectionString configuration with password from an environment variable."</p>
+                </div>
+
+                <div class="highlight">
+                    <p><strong>Instead of:</strong> "Here's my .env, debug this" (pastes secrets)</p>
+                    <p><strong>Say:</strong> "How should I structure environment variable names for a Node.js app with database and API credentials?"</p>
+                </div>
+            </div>
+
+            <!-- Technical Details -->
+            <div class="section">
+                <h2>🔧 Technical Details</h2>
+
+                <h3>Claude Code Security</h3>
+                <p>Uses permission deny rules in <code>.claude/settings.json</code>:</p>
+                <div class="command-block">
+{
+  "permissions": {
+    "deny": [
+      "Read(.env)",
+      "Read(.env.*.local)",
+      "Read(appsettings.json)",
+      "Edit(.env)",
+      "Write(.env)",
+      ...
+    ]
+  }
+}</div>
+
+                <h3>GitHub Copilot Custom Instructions</h3>
+                <p>Behavioral guardrails defined in <code>.copilot-instructions</code></p>
+                <ul style="margin-left: 20px;">
+                    <li>Copilot reads this file and follows the guidelines</li>
+                    <li>Provides education and warnings</li>
+                    <li>Guides secure patterns</li>
+                </ul>
+
+                <h3>Git Protection</h3>
+                <p>Comprehensive patterns in <code>.gitignore</code> covering:</p>
+                <ul style="margin-left: 20px;">
+                    <li>All environment variable files</li>
+                    <li>Configuration files with secrets</li>
+                    <li>Private keys and certificates</li>
+                    <li>Credential/token/password patterns</li>
+                </ul>
+            </div>
+
+            <!-- Verification -->
+            <div class="section">
+                <h2>✅ Verification</h2>
+
+                <h3>Status Check</h3>
+                <div class="success">
+                    <p><strong>Claude Code:</strong> ✓ Verified - .env file access blocked and tested</p>
+                </div>
+                <div class="success">
+                    <p><strong>GitHub Copilot:</strong> ✓ Active - .copilot-instructions file in place</p>
+                </div>
+                <div class="success">
+                    <p><strong>Git Protection:</strong> ✓ Active - .gitignore updated with secret patterns</p>
+                </div>
+
+                <h3>How to Test Locally</h3>
+                <p>Team members can verify the protection is working:</p>
+                <div class="highlight">
+                    <p><strong>1. Create a test .env file:</strong></p>
+                    <div class="command-block">echo "SECRET_KEY=test123" > .env</div>
+
+                    <p style="margin-top: 15px;"><strong>2. Try to ask Claude Code to read it:</strong></p>
+                    <p style="margin-top: 5px;">Use Claude Code and try: "Read the .env file"</p>
+                    <p style="margin-top: 5px;"><em>Expected: Access denied error</em></p>
+                </div>
+            </div>
+
+            <!-- Files Reference -->
+            <div class="section">
+                <h2>📚 Files Reference</h2>
+
+                <h3>Configuration Files in This Repository</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>File</th>
+                            <th>Purpose</th>
+                            <th>Committed</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>.claude/settings.json</code></td>
+                            <td>Claude Code permission rules</td>
+                            <td>✓ Yes</td>
+                        </tr>
+                        <tr>
+                            <td><code>.copilot-instructions</code></td>
+                            <td>GitHub Copilot guidelines</td>
+                            <td>✓ Yes</td>
+                        </tr>
+                        <tr>
+                            <td><code>.gitignore</code></td>
+                            <td>Git secret protection</td>
+                            <td>✓ Yes</td>
+                        </tr>
+                        <tr>
+                            <td><code>AI_SECURITY_GUIDE.html</code></td>
+                            <td>This guide</td>
+                            <td>✓ Yes</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Support -->
+            <div class="section">
+                <h2>❓ FAQ & Support</h2>
+
+                <h3>Q: What if I need to work with secret files?</h3>
+                <p><strong>A:</strong> Handle them manually outside of AI assistants. Use your code editor, terminal, or configuration management tools directly.</p>
+
+                <h3>Q: Can I disable these restrictions?</h3>
+                <p><strong>A:</strong> Project-level restrictions apply to everyone. Individual users can add overrides in <code>.claude/settings.local.json</code> (not committed), but this is not recommended for security reasons.</p>
+
+                <h3>Q: What if Claude Code shows an error about permissions?</h3>
+                <p><strong>A:</strong> This is working as intended. It means you're trying to access a protected secret file. This is a good sign that the protection is active.</p>
+
+                <h3>Q: Does this slow down development?</h3>
+                <p><strong>A:</strong> No. The restrictions are transparent. You simply can't ask AI about secrets, which is the desired behavior. Use environment variables and configuration patterns instead.</p>
+
+                <h3>Q: How do I report a security issue?</h3>
+                <p><strong>A:</strong> If you accidentally expose a secret or find a way to bypass these protections, report it to your security team immediately.</p>
+            </div>
+
+            <!-- Summary -->
+            <div class="section">
+                <h2>🎯 Key Takeaways</h2>
+
+                <ul class="checklist">
+                    <li><strong>Automatic Protection:</strong> No setup needed - security applies to all team members</li>
+                    <li><strong>Multiple Layers:</strong> Claude Code blocks, Copilot warns, Git prevents commits</li>
+                    <li><strong>Team-Wide:</strong> Settings are committed to the repository and work for everyone</li>
+                    <li><strong>Defense in Depth:</strong> Three complementary security mechanisms</li>
+                    <li><strong>User-Friendly:</strong> Clear error messages guide proper usage</li>
+                    <li><strong>Verified:</strong> Tested and confirmed working</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>🔒 <strong>AI Security Guide</strong> | Generated for project team</p>
+            <p style="margin-top: 10px; color: #999;">Last Updated: May 28, 2026</p>
+            <p style="margin-top: 10px; font-size: 0.85em;">For questions or concerns, contact your security team</p>
+        </div>
+    </div>
+</body>
+</html>

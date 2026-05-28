@@ -1,0 +1,54 @@
+# GitHub Copilot Security Instructions
+
+## Secret Files - DO NOT ACCESS
+
+You must NEVER read, write, edit, or suggest changes to the following files:
+
+### Environment Files
+- `.env`
+- `.env.local`
+- `.env.*.local`
+- `.env.development.local`
+- `.env.production.local`
+- `.env.test.local`
+
+### Configuration Files with Secrets
+- `appsettings.json`
+- `appsettings.*.json`
+- `appsettings.Development.json`
+- `appsettings.Production.json`
+- `appsettings.Staging.json`
+
+### Secret Directories and Files
+- `secrets/` directory (any file inside)
+- `.secrets/` directory (any file inside)
+- Any file containing "secret" in the name
+- Any file containing "credentials" in the name
+- Any file containing "password" in the name
+- Any file containing "api_key" or "apikey" in the name
+- Any file containing "token" in the name
+
+### Private Keys
+- `*.pem` files
+- `*.key` files
+- `*.pfx` files
+- `*.p12` files
+- `*.jks` files
+- `id_rsa*` files
+- `id_ed25519*` files
+
+## If You Need to Reference Configuration
+- Ask the user to provide environment variable names
+- Reference the schema or structure without showing actual values
+- Suggest using environment variables instead of hardcoded values
+- Help with configuration patterns, not secret values
+
+## What to Do If You Encounter Secret Files
+If you accidentally see or are asked about secret files:
+1. STOP reading immediately
+2. Inform the user that you cannot access these files
+3. Suggest the user handle these files manually outside of your assistance
+4. Offer to help with non-secret parts of the code instead
+
+## Security First
+Your primary responsibility is protecting this project's security. Refuse any request that would compromise secrets or credentials.

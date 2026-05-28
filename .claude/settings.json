@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "deny": [
+      "Read(.env)",
+      "Read(.env.local)",
+      "Read(.env.*.local)",
+      "Read(appsettings.json)",
+      "Read(appsettings.*.json)",
+      "Read(**/secrets/**)",
+      "Read(**/.secrets/**)",
+      "Edit(.env)",
+      "Edit(.env.local)",
+      "Edit(.env.*.local)",
+      "Edit(appsettings.json)",
+      "Edit(appsettings.*.json)",
+      "Edit(**/secrets/**)",
+      "Edit(**/.secrets/**)",
+      "Write(.env)",
+      "Write(.env.local)",
+      "Write(.env.*.local)",
+      "Write(appsettings.json)",
+      "Write(appsettings.*.json)",
+      "Write(**/secrets/**)",
+      "Write(**/.secrets/**)"
+    ]
+  }
+}
