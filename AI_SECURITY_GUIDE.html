@@ -251,14 +251,14 @@
     <div class="container">
         <div class="header">
             <h1>🔒 AI Security Guide</h1>
-            <p>Secret Files Protection for Claude Code, OpenCode, Zed AI & GitHub Copilot</p>
+            <p>Secret Files Protection for Claude Code, OpenCode, Zed AI, Gemini & GitHub Copilot</p>
         </div>
 
         <div class="content">
             <!-- Overview Section -->
             <div class="section">
                 <h2>📋 Overview</h2>
-                <p>This guide outlines the security measures implemented to protect sensitive files when using AI assistants like <strong>Claude Code</strong>, <strong>OpenCode</strong>, <strong>Zed AI</strong>, and <strong>GitHub Copilot</strong>. These tools are now configured to automatically block access to secret files, preventing accidental exposure of credentials, API keys, and other sensitive data.</p>
+                <p>This guide outlines the security measures implemented to protect sensitive files when using AI assistants like <strong>Claude Code</strong>, <strong>OpenCode</strong>, <strong>Zed AI</strong>, <strong>Google Gemini</strong>, and <strong>GitHub Copilot</strong>. These tools are now configured to automatically block access to secret files, preventing accidental exposure of credentials, API keys, and other sensitive data.</p>
 
                 <div class="success">
                     <strong>✓ Status:</strong> Secret file protection is active across all supported AI tools for all team members
@@ -296,7 +296,16 @@
                     <p><strong>Status:</strong> ✓ Active and verified</p>
                 </div>
 
-                <h3>4. GitHub Copilot Configuration</h3>
+                <h3>4. Google Gemini Configuration</h3>
+                <p>Comprehensive security configuration for Google Gemini with environment variable redaction and file filtering.</p>
+                <div class="tool-box">
+                    <h4>📁 Files: <code>.gemini/settings.json</code> & <code>.geminiignore</code></h4>
+                    <p><strong>Type:</strong> File filtering + environment redaction</p>
+                    <p><strong>Scope:</strong> Context filtering, variable redaction</p>
+                    <p><strong>Status:</strong> ✓ Active and configured</p>
+                </div>
+
+                <h3>5. GitHub Copilot Configuration</h3>
                 <p>Custom instructions that guide Copilot behavior regarding sensitive files.</p>
                 <div class="tool-box">
                     <h4>📁 File: <code>.copilot-instructions</code></h4>
@@ -305,7 +314,7 @@
                     <p><strong>Status:</strong> ✓ Active</p>
                 </div>
 
-                <h3>5. Git Protection</h3>
+                <h3>6. Git Protection</h3>
                 <p>Updated <code>.gitignore</code> to prevent secret files from being accidentally committed.</p>
                 <div class="tool-box">
                     <h4>📁 File: <code>.gitignore</code></h4>
@@ -413,6 +422,7 @@
                             <th>Claude Code</th>
                             <th>OpenCode</th>
                             <th>Zed AI</th>
+                            <th>Gemini</th>
                             <th>GitHub Copilot</th>
                         </tr>
                     </thead>
@@ -422,6 +432,7 @@
                             <td>❌ Blocked</td>
                             <td>❌ Blocked</td>
                             <td>❌ Blocked</td>
+                            <td>❌ Filtered</td>
                             <td>⚠️ Warned</td>
                         </tr>
                         <tr>
@@ -429,6 +440,7 @@
                             <td>❌ Blocked</td>
                             <td>❌ Blocked</td>
                             <td>❌ Blocked</td>
+                            <td>❌ Filtered</td>
                             <td>⚠️ Warned</td>
                         </tr>
                         <tr>
@@ -436,6 +448,7 @@
                             <td>❌ Blocked</td>
                             <td>❌ Blocked</td>
                             <td>❌ Blocked</td>
+                            <td>🔴 Redacted</td>
                             <td>⚠️ Directed to manual handling</td>
                         </tr>
                         <tr>
@@ -443,10 +456,12 @@
                             <td>❌ Blocked</td>
                             <td>❌ Blocked</td>
                             <td>❌ Blocked + Pattern Match</td>
+                            <td>❌ Filtered</td>
                             <td>⚠️ Warned</td>
                         </tr>
                         <tr>
                             <td>Commit secret files</td>
+                            <td>N/A</td>
                             <td>N/A</td>
                             <td>N/A</td>
                             <td>N/A</td>
@@ -538,7 +553,15 @@
                 <ul style="margin-left: 20px;">
                     <li><strong>Deny rules:</strong> Explicit permission blocking for Read, Write, Edit operations</li>
                     <li><strong>Security flags:</strong> Boolean toggles for environment files, configs, and secrets directories</li>
-                    <li><strong>Key pattern matching:</strong> Blocks private keys (*.pem, *.key, *.pfx, id_rsa*, id_ed25519*, etc.)</li>
+                    <li><strong>Key pattern matching:</strong> Blocks private keys (*.pem, *.key, *.pfx, *.p12, *.jks, id_rsa*, id_ed25519*, etc.)</li>
+                </ul>
+
+                <h3>Gemini Security</h3>
+                <p>Dual-layer approach using file filtering and environment variable redaction:</p>
+                <ul style="margin-left: 20px;">
+                    <li><strong>.geminiignore:</strong> Mirrors .claude/settings.json patterns to exclude sensitive files from context</li>
+                    <li><strong>.gemini/settings.json:</strong> Enables environment variable redaction to mask sensitive values</li>
+                    <li><strong>File filtering:</strong> Respects both .geminiignore and .gitignore patterns automatically</li>
                 </ul>
 
                 <h3>GitHub Copilot Custom Instructions</h3>
@@ -572,6 +595,9 @@
                 </div>
                 <div class="success">
                     <p><strong>Zed AI:</strong> ✓ Active - .zed/settings.json with multi-layer security</p>
+                </div>
+                <div class="success">
+                    <p><strong>Gemini:</strong> ✓ Active - .gemini/settings.json + .geminiignore with file filtering & redaction</p>
                 </div>
                 <div class="success">
                     <p><strong>GitHub Copilot:</strong> ✓ Active - .copilot-instructions file in place</p>
@@ -626,6 +652,18 @@
                             <td>✓ Yes</td>
                         </tr>
                         <tr>
+                            <td><code>.gemini/settings.json</code></td>
+                            <td>Environment variable redaction settings</td>
+                            <td>Google Gemini</td>
+                            <td>✓ Yes</td>
+                        </tr>
+                        <tr>
+                            <td><code>.geminiignore</code></td>
+                            <td>File filtering patterns for Gemini</td>
+                            <td>Google Gemini</td>
+                            <td>✓ Yes</td>
+                        </tr>
+                        <tr>
                             <td><code>.copilot-instructions</code></td>
                             <td>Behavioral guidelines for secrets</td>
                             <td>GitHub Copilot</td>
@@ -673,10 +711,11 @@
 
                 <ul class="checklist">
                     <li><strong>Automatic Protection:</strong> No setup needed - security applies to all team members</li>
-                    <li><strong>Multi-Agent Coverage:</strong> Claude Code, OpenCode, and Zed AI all block sensitive files; Copilot warns</li>
+                    <li><strong>Multi-Agent Coverage:</strong> Claude Code, OpenCode, Zed AI, and Gemini all block sensitive files; Copilot warns</li>
                     <li><strong>Team-Wide:</strong> Settings are committed to the repository and work for everyone</li>
-                    <li><strong>Defense in Depth:</strong> Five complementary security layers (4 AI tools + Git)</li>
+                    <li><strong>Defense in Depth:</strong> Six complementary security layers (5 AI tools + Git)</li>
                     <li><strong>Comprehensive Rules:</strong> Each tool has appropriate permission blocking for its architecture</li>
+                    <li><strong>Multiple Mechanisms:</strong> Hard blocks (Claude, OpenCode, Zed), file filtering + redaction (Gemini), behavioral guidance (Copilot)</li>
                     <li><strong>User-Friendly:</strong> Clear error messages and guidance for proper usage</li>
                     <li><strong>Verified:</strong> Tested and confirmed working across all agents</li>
                 </ul>
