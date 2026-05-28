@@ -1,116 +1,23 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "name": "ai-settings",
-  "description": "Security-restricted project with AI assistant protections",
   "permission": {
     "read": {
-      "*.env": "deny",
-      "*.env.*": "deny",
       ".env": "deny",
       ".env.local": "deny",
       ".env.*.local": "deny",
-      ".env.development.local": "deny",
-      ".env.production.local": "deny",
-      ".env.test.local": "deny",
       "appsettings.json": "deny",
       "appsettings.*.json": "deny",
-      "appsettings.Development.json": "deny",
-      "appsettings.Production.json": "deny",
-      "appsettings.Staging.json": "deny",
-      "secrets/": "deny",
-      ".secrets/": "deny",
-      "*.pem": "deny",
-      "*.key": "deny",
-      "*.pfx": "deny",
-      "*.p12": "deny",
-      "*.jks": "deny",
-      "id_rsa*": "deny",
-      "id_ed25519*": "deny",
-      "*credentials*": "deny",
-      "*password*": "deny",
-      "*secret*": "deny",
-      "*api_key*": "deny",
-      "*apikey*": "deny",
-      "*token*": "deny"
+      "**/secrets/**": "deny",
+      "**/.secrets/**": "deny"
     },
-    "write": {
-      "*.env": "deny",
-      "*.env.*": "deny",
-      ".env": "deny",
-      ".env.local": "deny",
-      ".env.*.local": "deny",
-      ".env.development.local": "deny",
-      ".env.production.local": "deny",
-      ".env.test.local": "deny",
-      "appsettings.json": "deny",
-      "appsettings.*.json": "deny",
-      "appsettings.Development.json": "deny",
-      "appsettings.Production.json": "deny",
-      "appsettings.Staging.json": "deny",
-      "secrets/": "deny",
-      ".secrets/": "deny",
-      "*.pem": "deny",
-      "*.key": "deny",
-      "*.pfx": "deny",
-      "*.p12": "deny",
-      "*.jks": "deny",
-      "id_rsa*": "deny",
-      "id_ed25519*": "deny",
-      "*credentials*": "deny",
-      "*password*": "deny",
-      "*secret*": "deny",
-      "*api_key*": "deny",
-      "*apikey*": "deny",
-      "*token*": "deny"
-    },
-    "execute": {
-      "*.env": "deny",
-      "*.env.*": "deny",
+    "edit": {
       ".env": "deny",
       ".env.local": "deny",
       ".env.*.local": "deny",
       "appsettings.json": "deny",
       "appsettings.*.json": "deny",
-      "secrets/": "deny",
-      ".secrets/": "deny",
-      "*.pem": "deny",
-      "*.key": "deny",
-      "*.pfx": "deny"
+      "**/secrets/**": "deny",
+      "**/.secrets/**": "deny"
     }
-  },
-  "security": {
-    "description": "Comprehensive secret file protection",
-    "layers": [
-      {
-        "name": "Environment Files",
-        "pattern": ".env*",
-        "reason": "Contains application secrets and API keys"
-      },
-      {
-        "name": "Configuration Files",
-        "pattern": "appsettings*.json",
-        "reason": "May contain database credentials and service secrets"
-      },
-      {
-        "name": "Secret Directories",
-        "pattern": "secrets/, .secrets/",
-        "reason": "Dedicated directories for sensitive data"
-      },
-      {
-        "name": "Private Keys & Certificates",
-        "pattern": "*.pem, *.key, *.pfx, *.p12, *.jks",
-        "reason": "Cryptographic keys and certificates"
-      },
-      {
-        "name": "SSH Keys",
-        "pattern": "id_rsa*, id_ed25519*",
-        "reason": "SSH authentication keys"
-      },
-      {
-        "name": "Sensitive Filename Patterns",
-        "pattern": "*credentials*, *password*, *secret*, *api_key*, *token*",
-        "reason": "Files with names indicating they contain secrets"
-      }
-    ]
   }
 }
