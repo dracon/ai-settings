@@ -30,6 +30,15 @@ All configuration files in this repository are created and maintained through Cl
 - **Type**: Machine-readable JSON configuration
 - **Effect**: Blocks Read, Write, and Edit operations on sensitive files
 - **Scope**: Applied automatically to all users cloning the repository
+- **Coverage**: Environment files, configs, secrets, keys, sensitive patterns
+
+#### `opencode.json`
+- **Purpose**: Comprehensive security rules for OpenCode AI assistant
+- **Type**: Structured JSON configuration with security metadata
+- **Effect**: Blocks Read, Write, and Execute operations on sensitive files
+- **Scope**: Applied to OpenCode when working in this project
+- **Coverage**: Environment files, configs, secrets, keys, sensitive patterns
+- **Features**: Includes detailed security layer documentation explaining why each pattern is protected
 
 #### `.copilot-instructions`
 - **Purpose**: Custom security instructions for GitHub Copilot
@@ -93,6 +102,9 @@ To implement similar security in your own projects:
 # Copy the Claude Code security settings
 cp .claude/settings.json your-project/.claude/settings.json
 
+# Copy the OpenCode security configuration
+cp opencode.json your-project/opencode.json
+
 # Copy the GitHub Copilot instructions
 cp .copilot-instructions your-project/.copilot-instructions
 
@@ -100,15 +112,23 @@ cp .copilot-instructions your-project/.copilot-instructions
 cat .gitignore >> your-project/.gitignore
 ```
 
-### 2. Commit to Version Control
+### 2. Customize for Your AI Assistants
+
+Edit the configuration files to match your team's tools:
+- **Claude Code**: Use `.claude/settings.json` if your team uses Claude Code
+- **OpenCode**: Use `opencode.json` if your team uses OpenCode
+- **GitHub Copilot**: Use `.copilot-instructions` if your team uses GitHub Copilot
+- **Git**: Always include `.gitignore` patterns
+
+### 3. Commit to Version Control
 
 ```bash
-git add .claude/settings.json .copilot-instructions .gitignore
+git add opencode.json .claude/settings.json .copilot-instructions .gitignore
 git commit -m "Add AI security restrictions for secret file protection"
 git push
 ```
 
-### 3. Inform Your Team
+### 4. Inform Your Team
 
 Share the `AI_SECURITY_GUIDE.html` with your team to explain:
 - What restrictions are in place
@@ -117,15 +137,26 @@ Share the `AI_SECURITY_GUIDE.html` with your team to explain:
 
 ## How Claude Code Generated These Files
 
-This project demonstrates Claude Code's capability to create security configurations:
+This project demonstrates Claude Code's capability to create security configurations for multiple AI assistants:
 
+### Claude Code & OpenCode Configurations
 1. **Initial Setup**: The project was initialized with security requirements in mind
-2. **Configuration Generation**: Claude Code created the JSON configuration following Claude Code's permission syntax
-3. **Documentation**: Claude Code generated comprehensive documentation explaining the setup
-4. **HTML Guide**: Claude Code created an interactive HTML guide for team reference
-5. **Validation**: All configurations were tested to ensure they work as intended
+2. **Configuration Generation**: Claude Code created JSON configurations for:
+   - Claude Code's permission system (`.claude/settings.json`)
+   - OpenCode's permission model (`opencode.json`)
+3. **Multi-Tool Approach**: Single security rules adapted across different AI assistants
+4. **Documentation**: Claude Code generated comprehensive documentation explaining the setup
+5. **HTML Guide**: Claude Code created an interactive HTML guide for team reference
+6. **Validation**: All configurations were tested to ensure they work as intended
 
-This showcases how AI can be used to implement security best practices, even when those practices restrict the AI itself.
+### OpenCode Configuration Features
+The `opencode.json` file includes additional metadata:
+- **Security Layers**: Documented descriptions of why each file pattern is protected
+- **Structured Format**: JSON schema that OpenCode can parse and enforce
+- **Extensible Design**: Easy to add new patterns or modify restrictions
+- **Team Communication**: Built-in explanations that developers can reference
+
+This showcases how AI can be used to implement security best practices, even when those practices restrict the AI itself. It demonstrates that consistent security policies can be applied across multiple AI assistants simultaneously.
 
 ## Security Features
 
@@ -133,7 +164,19 @@ This showcases how AI can be used to implement security best practices, even whe
 - **Type**: Hard blocking at the file system level
 - **Enforcement**: Immediate denial with error message
 - **Message**: "File is in a directory that is denied by your permission settings."
-- **Scope**: Read, Write, Edit operations
+- **Operations**: Read, Write, Edit
+- **Scope**: Applied automatically to all users
+
+### OpenCode Protection
+- **Type**: Structured permission-based blocking
+- **Configuration**: Declarative JSON with security layer metadata
+- **Enforcement**: Blocks access before operations are attempted
+- **Operations**: Read, Write, Execute
+- **Features**: 
+  - Detailed explanation of why each file pattern is protected
+  - Multi-layered security documentation
+  - Easy integration with OpenCode AI assistant
+- **Scope**: Applied when OpenCode is used in this project
 
 ### GitHub Copilot Protection
 - **Type**: Behavioral guidance through custom instructions
@@ -194,10 +237,25 @@ ai-settings/
 ├── AI_SECURITY_GUIDE.html         # Interactive guide for team members
 ├── .claude/
 │   └── settings.json             # Claude Code security rules
+├── opencode.json                 # OpenCode security configuration
 ├── .copilot-instructions         # GitHub Copilot guidelines
-├── .gitignore                    # Git protection patterns
-└── opencode.json                 # Project metadata
+└── .gitignore                    # Git protection patterns
 ```
+
+## AI Assistant Configuration Comparison
+
+| Feature | Claude Code | OpenCode | GitHub Copilot | Git |
+|---------|-------------|----------|----------------|-----|
+| **Configuration File** | `.claude/settings.json` | `opencode.json` | `.copilot-instructions` | `.gitignore` |
+| **Format** | JSON (permissions list) | JSON (structured) | Text (guidelines) | Text (patterns) |
+| **Enforcement Level** | Hard block | Hard block | Soft guidance | Prevent commits |
+| **Read Protection** | ✓ | ✓ | ✓ | N/A |
+| **Write Protection** | ✓ | ✓ | ✓ | ✓ |
+| **Execute Protection** | N/A | ✓ | N/A | N/A |
+| **Team Scope** | All users | All users | All users | All users |
+| **Metadata Support** | ✗ | ✓ | N/A | N/A |
+| **File Patterns** | Glob patterns | Path patterns | Text references | Glob patterns |
+| **Commitment Level** | Project-wide | Project-wide | Per-user setting | Project-wide |
 
 ## FAQ
 
