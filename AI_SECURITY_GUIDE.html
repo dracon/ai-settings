@@ -251,17 +251,17 @@
     <div class="container">
         <div class="header">
             <h1>🔒 AI Security Guide</h1>
-            <p>Secret Files Protection for Claude Code & GitHub Copilot</p>
+            <p>Secret Files Protection for Claude Code, OpenCode, Zed AI & GitHub Copilot</p>
         </div>
 
         <div class="content">
             <!-- Overview Section -->
             <div class="section">
                 <h2>📋 Overview</h2>
-                <p>This guide outlines the security measures implemented to protect sensitive files when using AI assistants like <strong>Claude Code</strong> and <strong>GitHub Copilot</strong>. These tools are now configured to automatically block access to secret files, preventing accidental exposure of credentials, API keys, and other sensitive data.</p>
+                <p>This guide outlines the security measures implemented to protect sensitive files when using AI assistants like <strong>Claude Code</strong>, <strong>OpenCode</strong>, <strong>Zed AI</strong>, and <strong>GitHub Copilot</strong>. These tools are now configured to automatically block access to secret files, preventing accidental exposure of credentials, API keys, and other sensitive data.</p>
 
                 <div class="success">
-                    <strong>✓ Status:</strong> Secret file protection is active for all team members
+                    <strong>✓ Status:</strong> Secret file protection is active across all supported AI tools for all team members
                 </div>
             </div>
 
@@ -278,7 +278,25 @@
                     <p><strong>Status:</strong> ✓ Active and verified</p>
                 </div>
 
-                <h3>2. GitHub Copilot Configuration</h3>
+                <h3>2. OpenCode Configuration</h3>
+                <p>Comprehensive security configuration for the OpenCode AI assistant with deny rules for sensitive files.</p>
+                <div class="tool-box">
+                    <h4>📁 File: <code>opencode.json</code></h4>
+                    <p><strong>Type:</strong> Permission-based blocking</p>
+                    <p><strong>Scope:</strong> Read and Edit operations</p>
+                    <p><strong>Status:</strong> ✓ Active and configured</p>
+                </div>
+
+                <h3>3. Zed AI Configuration</h3>
+                <p>Security settings for the Zed editor's AI capabilities with comprehensive permission deny rules.</p>
+                <div class="tool-box">
+                    <h4>📁 File: <code>.zed/settings.json</code></h4>
+                    <p><strong>Type:</strong> Permission-based blocking</p>
+                    <p><strong>Scope:</strong> Read, Write, Edit operations with key pattern blocking</p>
+                    <p><strong>Status:</strong> ✓ Active and verified</p>
+                </div>
+
+                <h3>4. GitHub Copilot Configuration</h3>
                 <p>Custom instructions that guide Copilot behavior regarding sensitive files.</p>
                 <div class="tool-box">
                     <h4>📁 File: <code>.copilot-instructions</code></h4>
@@ -287,7 +305,7 @@
                     <p><strong>Status:</strong> ✓ Active</p>
                 </div>
 
-                <h3>3. Git Protection</h3>
+                <h3>5. Git Protection</h3>
                 <p>Updated <code>.gitignore</code> to prevent secret files from being accidentally committed.</p>
                 <div class="tool-box">
                     <h4>📁 File: <code>.gitignore</code></h4>
@@ -393,6 +411,8 @@
                         <tr>
                             <th>Action</th>
                             <th>Claude Code</th>
+                            <th>OpenCode</th>
+                            <th>Zed AI</th>
                             <th>GitHub Copilot</th>
                         </tr>
                     </thead>
@@ -400,20 +420,35 @@
                         <tr>
                             <td>Try to read <code>.env</code></td>
                             <td>❌ Blocked</td>
+                            <td>❌ Blocked</td>
+                            <td>❌ Blocked</td>
                             <td>⚠️ Warned</td>
                         </tr>
                         <tr>
                             <td>Try to edit a config file</td>
+                            <td>❌ Blocked</td>
+                            <td>❌ Blocked</td>
                             <td>❌ Blocked</td>
                             <td>⚠️ Warned</td>
                         </tr>
                         <tr>
                             <td>Ask about API keys</td>
                             <td>❌ Blocked</td>
+                            <td>❌ Blocked</td>
+                            <td>❌ Blocked</td>
                             <td>⚠️ Directed to manual handling</td>
                         </tr>
                         <tr>
+                            <td>Attempt to access private keys</td>
+                            <td>❌ Blocked</td>
+                            <td>❌ Blocked</td>
+                            <td>❌ Blocked + Pattern Match</td>
+                            <td>⚠️ Warned</td>
+                        </tr>
+                        <tr>
                             <td>Commit secret files</td>
+                            <td>N/A</td>
+                            <td>N/A</td>
                             <td>N/A</td>
                             <td>Git prevents this</td>
                         </tr>
@@ -479,6 +514,33 @@
   }
 }</div>
 
+                <h3>OpenCode Security</h3>
+                <p>Uses structured permission blocking in <code>opencode.json</code>:</p>
+                <div class="command-block">
+{
+  "permission": {
+    "read": {
+      ".env": "deny",
+      ".env.local": "deny",
+      "appsettings.json": "deny",
+      "**/secrets/**": "deny"
+    },
+    "edit": {
+      ".env": "deny",
+      "appsettings.json": "deny",
+      "**/secrets/**": "deny"
+    }
+  }
+}</div>
+
+                <h3>Zed AI Security</h3>
+                <p>Multi-layered permission system in <code>.zed/settings.json</code>:</p>
+                <ul style="margin-left: 20px;">
+                    <li><strong>Deny rules:</strong> Explicit permission blocking for Read, Write, Edit operations</li>
+                    <li><strong>Security flags:</strong> Boolean toggles for environment files, configs, and secrets directories</li>
+                    <li><strong>Key pattern matching:</strong> Blocks private keys (*.pem, *.key, *.pfx, id_rsa*, id_ed25519*, etc.)</li>
+                </ul>
+
                 <h3>GitHub Copilot Custom Instructions</h3>
                 <p>Behavioral guardrails defined in <code>.copilot-instructions</code></p>
                 <ul style="margin-left: 20px;">
@@ -504,6 +566,12 @@
                 <h3>Status Check</h3>
                 <div class="success">
                     <p><strong>Claude Code:</strong> ✓ Verified - .env file access blocked and tested</p>
+                </div>
+                <div class="success">
+                    <p><strong>OpenCode:</strong> ✓ Active - opencode.json configured with read/edit blocking</p>
+                </div>
+                <div class="success">
+                    <p><strong>Zed AI:</strong> ✓ Active - .zed/settings.json with multi-layer security</p>
                 </div>
                 <div class="success">
                     <p><strong>GitHub Copilot:</strong> ✓ Active - .copilot-instructions file in place</p>
@@ -534,28 +602,45 @@
                         <tr>
                             <th>File</th>
                             <th>Purpose</th>
+                            <th>AI Tool</th>
                             <th>Committed</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td><code>.claude/settings.json</code></td>
-                            <td>Claude Code permission rules</td>
+                            <td>Permission rules for secret files</td>
+                            <td>Claude Code</td>
+                            <td>✓ Yes</td>
+                        </tr>
+                        <tr>
+                            <td><code>opencode.json</code></td>
+                            <td>Security configuration for OpenCode</td>
+                            <td>OpenCode</td>
+                            <td>✓ Yes</td>
+                        </tr>
+                        <tr>
+                            <td><code>.zed/settings.json</code></td>
+                            <td>AI security settings for Zed editor</td>
+                            <td>Zed AI</td>
                             <td>✓ Yes</td>
                         </tr>
                         <tr>
                             <td><code>.copilot-instructions</code></td>
-                            <td>GitHub Copilot guidelines</td>
+                            <td>Behavioral guidelines for secrets</td>
+                            <td>GitHub Copilot</td>
                             <td>✓ Yes</td>
                         </tr>
                         <tr>
                             <td><code>.gitignore</code></td>
-                            <td>Git secret protection</td>
+                            <td>Prevent secret commits to git</td>
+                            <td>Git</td>
                             <td>✓ Yes</td>
                         </tr>
                         <tr>
                             <td><code>AI_SECURITY_GUIDE.html</code></td>
-                            <td>This guide</td>
+                            <td>Comprehensive security documentation</td>
+                            <td>All</td>
                             <td>✓ Yes</td>
                         </tr>
                     </tbody>
@@ -588,11 +673,12 @@
 
                 <ul class="checklist">
                     <li><strong>Automatic Protection:</strong> No setup needed - security applies to all team members</li>
-                    <li><strong>Multiple Layers:</strong> Claude Code blocks, Copilot warns, Git prevents commits</li>
+                    <li><strong>Multi-Agent Coverage:</strong> Claude Code, OpenCode, and Zed AI all block sensitive files; Copilot warns</li>
                     <li><strong>Team-Wide:</strong> Settings are committed to the repository and work for everyone</li>
-                    <li><strong>Defense in Depth:</strong> Three complementary security mechanisms</li>
-                    <li><strong>User-Friendly:</strong> Clear error messages guide proper usage</li>
-                    <li><strong>Verified:</strong> Tested and confirmed working</li>
+                    <li><strong>Defense in Depth:</strong> Five complementary security layers (4 AI tools + Git)</li>
+                    <li><strong>Comprehensive Rules:</strong> Each tool has appropriate permission blocking for its architecture</li>
+                    <li><strong>User-Friendly:</strong> Clear error messages and guidance for proper usage</li>
+                    <li><strong>Verified:</strong> Tested and confirmed working across all agents</li>
                 </ul>
             </div>
         </div>
