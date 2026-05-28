@@ -1,5 +1,5 @@
 {
-  "$schema": "https://zed.devai/settings/schema.json",
+  "$schema": "https://zed.dev/settings/schema.json",
   "permissions": {
     "deny": [
       "Read(.env)",
@@ -29,6 +29,14 @@
     "block_env_files": true,
     "block_config_files": true,
     "block_secret_directories": true,
-    "block_key_patterns": ["*.pem", "*.key", "*.pfx", "*.p12", "*.jks", "id_rsa*", "id_ed25519*"]
+    "block_key_patterns": [
+      "*.pem",
+      "*.key",
+      "*.pfx",
+      "*.p12",
+      "*.jks",
+      "id_rsa*",
+      "id_ed25519*"
+    ]
   }
 }
