@@ -1,0 +1,109 @@
+{
+  "// Instructions for Claude Code and Copilot": "This settings file restricts AI assistant access to sensitive files",
+
+  "[copilot]": {
+    "// NOTE": "GitHub Copilot reads .copilot-instructions file (see .copilot-instructions at repo root)",
+    "ignore": [
+      ".env",
+      ".env.local",
+      ".env.*.local",
+      "appsettings.json",
+      "appsettings.*.json",
+      "secrets/",
+      ".secrets/",
+      "**/*secret*",
+      "**/*credentials*",
+      "**/*password*",
+      "**/*api_key*",
+      "**/*apikey*",
+      "**/*token*",
+      "*.pem",
+      "*.key",
+      "*.pfx",
+      "*.p12",
+      "*.jks",
+      "id_rsa*",
+      "id_ed25519*"
+    ]
+  },
+
+  "[claude]": {
+    "// NOTE": "Claude Code reads .claude/settings.json for permission rules",
+    "security": {
+      "restrictedFiles": [
+        ".env",
+        ".env.local",
+        ".env.*.local",
+        "appsettings.json",
+        "appsettings.*.json",
+        "secrets/**",
+        ".secrets/**",
+        "**/*secret*",
+        "**/*credentials*",
+        "**/*password*",
+        "**/*api_key*",
+        "**/*apikey*",
+        "**/*token*",
+        "*.pem",
+        "*.key",
+        "*.pfx",
+        "*.p12",
+        "*.jks",
+        "id_rsa*",
+        "id_ed25519*"
+      ],
+      "explanation": "These files are blocked from AI assistant access to prevent accidental exposure of secrets, credentials, and configuration files."
+    }
+  },
+
+  "// IMPORTANT": "VS Code extensions and AI assistants have varying levels of support for workspace settings. For maximum security:",
+  "// SECURITY_NOTES": [
+    "1. Claude Code uses .claude/settings.json for enforced permission rules (most secure)",
+    "2. GitHub Copilot uses .copilot-instructions file for behavioral guidelines",
+    "3. This .vscode/settings.json serves as documentation and additional protection",
+    "4. Do not commit actual secrets to the repository",
+    "5. Use .gitignore to prevent accidental commits of sensitive files"
+  ],
+
+  "files.exclude": {
+    ".env": true,
+    ".env.local": true,
+    ".env.*.local": true,
+    "appsettings.json": true,
+    "appsettings.*.json": true,
+    "secrets/": true,
+    ".secrets/": true,
+    "**/*secret*": true,
+    "**/*credentials*": true,
+    "**/*password*": true,
+    "**/*api_key*": true,
+    "**/*apikey*": true,
+    "**/*token*": true,
+    "*.pem": true,
+    "*.key": true,
+    "*.pfx": true,
+    "*.p12": true,
+    "*.jks": true
+  },
+
+  "search.exclude": {
+    ".env": true,
+    ".env.local": true,
+    ".env.*.local": true,
+    "appsettings.json": true,
+    "appsettings.*.json": true,
+    "secrets/": true,
+    ".secrets/": true,
+    "**/*secret*": true,
+    "**/*credentials*": true,
+    "**/*password*": true,
+    "**/*api_key*": true,
+    "**/*apikey*": true,
+    "**/*token*": true,
+    "*.pem": true,
+    "*.key": true,
+    "*.pfx": true,
+    "*.p12": true,
+    "*.jks": true
+  }
+}
