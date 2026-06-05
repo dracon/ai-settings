@@ -18,6 +18,15 @@
       "appsettings.*.json": "deny",
       "**/secrets/**": "deny",
       "**/.secrets/**": "deny"
+    },
+    "bash": {
+      "env": "deny",
+      "env *": "deny",
+      "printenv": "deny",
+      "printenv *": "deny",
+      "mise list": "deny",
+      "mise list *": "deny",
+      "*": "allow"
     }
   }
 }
