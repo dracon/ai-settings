@@ -12,6 +12,7 @@ The project itself showcases how AI can generate and maintain its own security g
 
 **Configuration Files** (auto-enforced, no special commands needed):
 - `.claude/settings.json` — Permission rules that block AI access to sensitive files for Claude Code
+- `.vscode/settings.json` — VS Code workspace settings that hide sensitive files from UI
 - `opencode.json` — Security configuration for OpenCode AI assistant
 - `.copilot-instructions` — Behavioral guidelines for GitHub Copilot
 - `.gemini/settings.json` & `.geminiignore` — Security rules for Gemini CLI
@@ -51,6 +52,7 @@ All other bash commands are allowed. This prevents accidental exposure of sensit
 
 2. **Modify configuration files**: All configuration files are JSON or text-based and designed to be human-editable:
    - Edit `.claude/settings.json` to change Claude Code restrictions
+   - Edit `.vscode/settings.json` to adjust VS Code UI file hiding
    - Edit `opencode.json` for OpenCode rules
    - Edit `.copilot-instructions` for Copilot guidelines
    - Update `.gitignore` to change Git protection patterns
@@ -64,17 +66,18 @@ All other bash commands are allowed. This prevents accidental exposure of sensit
 - **No build system**: This is a configuration reference, not an application with tests, linting, or build steps.
 - **Configuration format differences**: Each AI assistant has its own preferred format (JSON, text, etc.). When adding new restrictions, ensure they're applied consistently across all relevant config files.
 - **Local overrides available**: Users can create `.claude/settings.local.json` to override restrictions for personal development, but this is not recommended.
-- **All configurations are synced**: When updating protection patterns, ensure consistency across `.claude/settings.json`, `opencode.json`, `.copilot-instructions`, `.gemini/settings.json`, and `.gitignore`.
+- **All configurations are synced**: When updating protection patterns, ensure consistency across `.claude/settings.json`, `.vscode/settings.json`, `opencode.json`, `.copilot-instructions`, `.gemini/settings.json`, and `.gitignore`.
 
 ## Common Tasks
 
 **Add a new protected file pattern:**
 1. Add to `.claude/settings.json` under `permissions.deny` (both Read and Edit)
-2. Add to `opencode.json` under `permission.read` and `permission.edit`
-3. Add to `.copilot-instructions` under "Secret Files - DO NOT ACCESS"
-4. Add to `.gitignore` to prevent commits
-5. Add to `.geminiignore` for Gemini CLI
-6. Update README.md with the new pattern in the "Protected File Patterns" section
+2. Add to `.vscode/settings.json` under `files.exclude` and `search.exclude`
+3. Add to `opencode.json` under `permission.read` and `permission.edit`
+4. Add to `.copilot-instructions` under "Secret Files - DO NOT ACCESS"
+5. Add to `.gitignore` to prevent commits
+6. Add to `.geminiignore` for Gemini CLI
+7. Update README.md with the new pattern in the "Protected File Patterns" section
 
 **Add a new protected command (OpenCode only):**
 1. Add to `opencode.json` under `permission.bash` with `"deny"` value
@@ -88,3 +91,47 @@ All other bash commands are allowed. This prevents accidental exposure of sensit
 - Commit all configuration changes together with a descriptive message
 - Update README.md if the approach or patterns change significantly
 - Update CLAUDE.md to reflect new protection layers or configuration changes
+
+<!-- gitnexus:start -->
+# GitNexus — Code Intelligence
+
+This project is indexed by GitNexus as **ai-settings** (86 symbols, 80 relationships, 0 execution flows). Use the GitNexus MCP tools to understand code, assess impact, and navigate safely.
+
+> If any GitNexus tool warns the index is stale, run `npx gitnexus analyze` in terminal first.
+
+## Always Do
+
+- **MUST run impact analysis before editing any symbol.** Before modifying a function, class, or method, run `gitnexus_impact({target: "symbolName", direction: "upstream"})` and report the blast radius (direct callers, affected processes, risk level) to the user.
+- **MUST run `gitnexus_detect_changes()` before committing** to verify your changes only affect expected symbols and execution flows.
+- **MUST warn the user** if impact analysis returns HIGH or CRITICAL risk before proceeding with edits.
+- When exploring unfamiliar code, use `gitnexus_query({query: "concept"})` to find execution flows instead of grepping. It returns process-grouped results ranked by relevance.
+- When you need full context on a specific symbol — callers, callees, which execution flows it participates in — use `gitnexus_context({name: "symbolName"})`.
+
+## Never Do
+
+- NEVER edit a function, class, or method without first running `gitnexus_impact` on it.
+- NEVER ignore HIGH or CRITICAL risk warnings from impact analysis.
+- NEVER rename symbols with find-and-replace — use `gitnexus_rename` which understands the call graph.
+- NEVER commit changes without running `gitnexus_detect_changes()` to check affected scope.
+
+## Resources
+
+| Resource | Use for |
+|----------|---------|
+| `gitnexus://repo/ai-settings/context` | Codebase overview, check index freshness |
+| `gitnexus://repo/ai-settings/clusters` | All functional areas |
+| `gitnexus://repo/ai-settings/processes` | All execution flows |
+| `gitnexus://repo/ai-settings/process/{name}` | Step-by-step execution trace |
+
+## CLI
+
+| Task | Read this skill file |
+|------|---------------------|
+| Understand architecture / "How does X work?" | `.claude/skills/gitnexus/gitnexus-exploring/SKILL.md` |
+| Blast radius / "What breaks if I change X?" | `.claude/skills/gitnexus/gitnexus-impact-analysis/SKILL.md` |
+| Trace bugs / "Why is X failing?" | `.claude/skills/gitnexus/gitnexus-debugging/SKILL.md` |
+| Rename / extract / split / refactor | `.claude/skills/gitnexus/gitnexus-refactoring/SKILL.md` |
+| Tools, resources, schema reference | `.claude/skills/gitnexus/gitnexus-guide/SKILL.md` |
+| Index, status, clean, wiki CLI commands | `.claude/skills/gitnexus/gitnexus-cli/SKILL.md` |
+
+<!-- gitnexus:end -->
