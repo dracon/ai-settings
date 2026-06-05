@@ -16,8 +16,9 @@ When using AI assistants for code development, there's a risk of accidentally ex
 This project provides a **defense-in-depth approach** using multiple layers of protection:
 
 1. **Claude Code Permission Rules** - Hard blocks that prevent file access
-2. **GitHub Copilot Custom Instructions** - Behavioral guidelines that guide responsible use
-3. **Git Ignore Patterns** - Prevents secrets from being committed to version control
+2. **VS Code Settings** - UI-level hiding of sensitive files for all developers
+3. **GitHub Copilot Custom Instructions** - Behavioral guidelines that guide responsible use
+4. **Git Ignore Patterns** - Prevents secrets from being committed to version control
 
 ## What's Included
 
@@ -61,6 +62,14 @@ All configuration files in this repository are created and maintained through Cl
 - **Type**: Human-readable guidelines
 - **Effect**: Guides Copilot behavior when it encounters sensitive files
 - **Scope**: Read by Copilot and applied within the GitHub editor
+
+#### `.vscode/settings.json`
+- **Purpose**: VS Code workspace security settings for Claude Code and Copilot
+- **Type**: VS Code JSON configuration
+- **Effect**: Hides sensitive files from VS Code UI via `files.exclude` and `search.exclude`
+- **Scope**: Applied to all developers using VS Code in this repository
+- **Coverage**: Environment files, configs, secrets, keys, sensitive patterns
+- **Features**: Documents how Claude Code and Copilot security enforcement works; provides UI-level protection complementing hard blocks in `.claude/settings.json`
 
 #### `.gitignore` (Updated)
 - **Purpose**: Prevents accidental commits of sensitive files
@@ -118,6 +127,9 @@ To implement similar security in your own projects:
 # Copy the Claude Code security settings
 cp .claude/settings.json your-project/.claude/settings.json
 
+# Copy the VS Code security settings
+cp -r .vscode your-project/.vscode
+
 # Copy the OpenCode security configuration
 cp opencode.json your-project/opencode.json
 
@@ -132,6 +144,7 @@ cat .gitignore >> your-project/.gitignore
 
 Edit the configuration files to match your team's tools:
 - **Claude Code**: Use `.claude/settings.json` if your team uses Claude Code
+- **VS Code**: Use `.vscode/settings.json` for UI-level protection in VS Code
 - **OpenCode**: Use `opencode.json` if your team uses OpenCode
 - **GitHub Copilot**: Use `.copilot-instructions` if your team uses GitHub Copilot
 - **Git**: Always include `.gitignore` patterns
@@ -139,7 +152,7 @@ Edit the configuration files to match your team's tools:
 ### 3. Commit to Version Control
 
 ```bash
-git add opencode.json .claude/settings.json .copilot-instructions .gitignore
+git add .claude/settings.json .vscode/settings.json opencode.json .copilot-instructions .gitignore
 git commit -m "Add AI security restrictions for secret file protection"
 git push
 ```
@@ -206,6 +219,13 @@ This showcases how AI can be used to implement security best practices, even whe
 - **Enforcement**: Copilot reads instructions and follows them
 - **Guidance**: Won't suggest changes to protected files, won't complete secrets
 - **Scope**: Code suggestions and chat interactions
+
+### VS Code Protection
+- **Type**: Workspace UI hiding via `files.exclude` and `search.exclude`
+- **Configuration**: `.vscode/settings.json`
+- **Enforcement**: Hides files from Explorer and Search panels
+- **Scope**: All developers using VS Code in this project
+- **Limitation**: UI-level hiding only; real enforcement comes from `.claude/settings.json` and `.copilot-instructions`
 
 ### Git Protection
 - **Type**: Repository-level file filtering
@@ -274,6 +294,8 @@ ai-settings/
 ├── .geminiignore                 # Gemini CLI ignore patterns
 ├── .zed/
 │   └── settings.json            # Zed AI security rules
+├── .vscode/
+│   └── settings.json            # VS Code security settings
 ├── opencode.json                 # OpenCode security configuration
 ├── .copilot-instructions         # GitHub Copilot guidelines
 └── .gitignore                    # Git protection patterns
@@ -281,18 +303,20 @@ ai-settings/
 
 ## AI Assistant Configuration Comparison
 
-| Feature | Claude Code | Gemini CLI | Zed | OpenCode | GitHub Copilot | Git |
-|---------|-------------|------------|-----|----------|----------------|-----|
-| **Configuration File** | `.claude/settings.json` | `.gemini/settings.json`, `.geminiignore` | `.zed/settings.json` | `opencode.json` | `.copilot-instructions` | `.gitignore` |
-| **Format** | JSON (permissions list) | JSON + Text | JSON (permissions + security schema) | JSON (structured) | Text (guidelines) | Text (patterns) |
-| **Enforcement Level** | Hard block | Hard block (via ignore) | Hard block | Hard block | Soft guidance | Prevent commits |
-| **Read Protection** | ✓ | ✓ | ✓ | ✓ | ✓ | N/A |
-| **Write Protection** | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| **Execute Protection** | N/A | N/A | N/A | ✓ | N/A | N/A |
-| **Team Scope** | All users | All users | All users | All users | All users | All users |
-| **Metadata Support** | ✗ | ✗ | ✓ | ✓ | N/A | N/A |
-| **File Patterns** | Glob patterns | Glob patterns | Glob patterns | Path patterns | Text references | Glob patterns |
-| **Commitment Level** | Project-wide | Project-wide | Project-wide | Project-wide | Per-user setting | Project-wide |
+| Feature | Claude Code | VS Code | Gemini CLI | Zed | OpenCode | GitHub Copilot | Git |
+|---------|-------------|---------|------------|-----|----------|----------------|-----|
+| **Configuration File** | `.claude/settings.json` | `.vscode/settings.json` | `.gemini/settings.json`, `.geminiignore` | `.zed/settings.json` | `opencode.json` | `.copilot-instructions` | `.gitignore` |
+| **Format** | JSON (permissions list) | JSON (settings) | JSON + Text | JSON (permissions + security schema) | JSON (structured) | Text (guidelines) | Text (patterns) |
+| **Enforcement Level** | Hard block | UI hiding | Hard block (via ignore) | Hard block | Hard block | Soft guidance | Prevent commits |
+| **Read Protection** | ✓ | ✓* | ✓ | ✓ | ✓ | ✓ | N/A |
+| **Write Protection** | ✓ | ✓* | ✓ | ✓ | ✓ | ✓ | ✓ |
+| **Execute Protection** | N/A | N/A | N/A | N/A | ✓ | N/A | N/A |
+| **Team Scope** | All users | All users | All users | All users | All users | All users | All users |
+| **Metadata Support** | ✗ | ✗ | ✗ | ✓ | ✓ | N/A | N/A |
+| **File Patterns** | Glob patterns | Glob patterns | Glob patterns | Glob patterns | Path patterns | Text references | Glob patterns |
+| **Commitment Level** | Project-wide | Project-wide | Project-wide | Project-wide | Project-wide | Per-user setting | Project-wide |
+
+*VS Code protection is UI-level (hiding files from Explorer and Search); real enforcement comes from `.claude/settings.json` and `.copilot-instructions`
 
 ## FAQ
 
