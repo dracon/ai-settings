@@ -251,17 +251,17 @@
     <div class="container">
         <div class="header">
             <h1>🔒 AI Security Guide</h1>
-            <p>Secret Files Protection for Claude Code, OpenCode, Zed AI, Gemini & GitHub Copilot</p>
+            <p>Secret Files Protection for Claude Code, VS Code, OpenCode, Zed AI, Gemini & GitHub Copilot</p>
         </div>
 
         <div class="content">
             <!-- Overview Section -->
             <div class="section">
                 <h2>📋 Overview</h2>
-                <p>This guide outlines the security measures implemented to protect sensitive files when using AI assistants like <strong>Claude Code</strong>, <strong>OpenCode</strong>, <strong>Zed AI</strong>, <strong>Google Gemini</strong>, and <strong>GitHub Copilot</strong>. These tools are now configured to automatically block access to secret files, preventing accidental exposure of credentials, API keys, and other sensitive data.</p>
+                <p>This guide outlines the security measures implemented to protect sensitive files when using AI assistants like <strong>Claude Code</strong>, <strong>OpenCode</strong>, <strong>Zed AI</strong>, <strong>Google Gemini</strong>, and <strong>GitHub Copilot</strong>, as well as VS Code for your development environment. These tools are now configured to automatically block access to secret files, preventing accidental exposure of credentials, API keys, and other sensitive data.</p>
 
                 <div class="success">
-                    <strong>✓ Status:</strong> Secret file protection is active across all supported AI tools for all team members
+                    <strong>✓ Status:</strong> Secret file protection is active across all supported AI tools and VS Code for all team members
                 </div>
             </div>
 
@@ -278,7 +278,17 @@
                     <p><strong>Status:</strong> ✓ Active and verified</p>
                 </div>
 
-                <h3>2. OpenCode Configuration</h3>
+                <h3>2. VS Code Configuration</h3>
+                <p>Workspace settings that hide sensitive files from the VS Code UI (Explorer and Search).</p>
+                <div class="tool-box">
+                    <h4>📁 File: <code>.vscode/settings.json</code></h4>
+                    <p><strong>Type:</strong> UI-level file hiding</p>
+                    <p><strong>Scope:</strong> Files.exclude and Search.exclude patterns</p>
+                    <p><strong>Status:</strong> ✓ Active and applied automatically</p>
+                    <p><strong>Note:</strong> Complements hard enforcement from Claude Code and Copilot</p>
+                </div>
+
+                <h3>3. OpenCode Configuration</h3>
                 <p>Comprehensive security configuration for the OpenCode AI assistant with deny rules for sensitive files.</p>
                 <div class="tool-box">
                     <h4>📁 File: <code>opencode.json</code></h4>
@@ -287,7 +297,7 @@
                     <p><strong>Status:</strong> ✓ Active and configured</p>
                 </div>
 
-                <h3>3. Zed AI Configuration</h3>
+                <h3>4. Zed AI Configuration</h3>
                 <p>Security settings for the Zed editor's AI capabilities with comprehensive permission deny rules.</p>
                 <div class="tool-box">
                     <h4>📁 File: <code>.zed/settings.json</code></h4>
@@ -296,7 +306,7 @@
                     <p><strong>Status:</strong> ✓ Active and verified</p>
                 </div>
 
-                <h3>4. Google Gemini Configuration</h3>
+                <h3>5. Google Gemini Configuration</h3>
                 <p>Comprehensive security configuration for Google Gemini with environment variable redaction and file filtering.</p>
                 <div class="tool-box">
                     <h4>📁 Files: <code>.gemini/settings.json</code> & <code>.geminiignore</code></h4>
@@ -305,7 +315,7 @@
                     <p><strong>Status:</strong> ✓ Active and configured</p>
                 </div>
 
-                <h3>5. GitHub Copilot Configuration</h3>
+                <h3>6. GitHub Copilot Configuration</h3>
                 <p>Custom instructions that guide Copilot behavior regarding sensitive files.</p>
                 <div class="tool-box">
                     <h4>📁 File: <code>.copilot-instructions</code></h4>
@@ -314,7 +324,7 @@
                     <p><strong>Status:</strong> ✓ Active</p>
                 </div>
 
-                <h3>6. Git Protection</h3>
+                <h3>7. Git Protection</h3>
                 <p>Updated <code>.gitignore</code> to prevent secret files from being accidentally committed.</p>
                 <div class="tool-box">
                     <h4>📁 File: <code>.gitignore</code></h4>
@@ -388,6 +398,12 @@
                     <strong>Result:</strong> Access is <strong>denied immediately</strong> with an error message: "File is in a directory that is denied by your permission settings."
                 </div>
 
+                <h3>VS Code</h3>
+                <p>VS Code automatically hides protected files from the interface:</p>
+                <div class="highlight">
+                    <strong>Result:</strong> Protected files are hidden from Explorer and excluded from Search results, reducing the chance of accidental interaction.
+                </div>
+
                 <h3>GitHub Copilot</h3>
                 <p>GitHub Copilot reads the <code>.copilot-instructions</code> file and follows the behavioral guidelines:</p>
                 <ul style="margin-left: 20px;">
@@ -420,6 +436,7 @@
                         <tr>
                             <th>Action</th>
                             <th>Claude Code</th>
+                            <th>VS Code</th>
                             <th>OpenCode</th>
                             <th>Zed AI</th>
                             <th>Gemini</th>
@@ -430,6 +447,7 @@
                         <tr>
                             <td>Try to read <code>.env</code></td>
                             <td>❌ Blocked</td>
+                            <td>🚫 Hidden</td>
                             <td>❌ Blocked</td>
                             <td>❌ Blocked</td>
                             <td>❌ Filtered</td>
@@ -438,6 +456,7 @@
                         <tr>
                             <td>Try to edit a config file</td>
                             <td>❌ Blocked</td>
+                            <td>🚫 Hidden</td>
                             <td>❌ Blocked</td>
                             <td>❌ Blocked</td>
                             <td>❌ Filtered</td>
@@ -446,6 +465,7 @@
                         <tr>
                             <td>Ask about API keys</td>
                             <td>❌ Blocked</td>
+                            <td>🚫 Hidden</td>
                             <td>❌ Blocked</td>
                             <td>❌ Blocked</td>
                             <td>🔴 Redacted</td>
@@ -454,6 +474,7 @@
                         <tr>
                             <td>Attempt to access private keys</td>
                             <td>❌ Blocked</td>
+                            <td>🚫 Hidden</td>
                             <td>❌ Blocked</td>
                             <td>❌ Blocked + Pattern Match</td>
                             <td>❌ Filtered</td>
@@ -461,6 +482,7 @@
                         </tr>
                         <tr>
                             <td>Commit secret files</td>
+                            <td>N/A</td>
                             <td>N/A</td>
                             <td>N/A</td>
                             <td>N/A</td>
@@ -529,6 +551,24 @@
   }
 }</div>
 
+                <h3>VS Code Security</h3>
+                <p>Uses <code>.vscode/settings.json</code> to hide files from the UI:</p>
+                <div class="command-block">
+{
+  "files.exclude": {
+    ".env": true,
+    ".env.local": true,
+    "secrets/": true,
+    "**/*secret*": true,
+    ...
+  },
+  "search.exclude": {
+    ".env": true,
+    ".env.local": true,
+    ...
+  }
+}</div>
+
                 <h3>OpenCode Security</h3>
                 <p>Uses structured permission blocking in <code>opencode.json</code>:</p>
                 <div class="command-block">
@@ -591,6 +631,9 @@
                     <p><strong>Claude Code:</strong> ✓ Verified - .env file access blocked and tested</p>
                 </div>
                 <div class="success">
+                    <p><strong>VS Code:</strong> ✓ Active - .vscode/settings.json hiding sensitive files from UI</p>
+                </div>
+                <div class="success">
                     <p><strong>OpenCode:</strong> ✓ Active - opencode.json configured with read/edit blocking</p>
                 </div>
                 <div class="success">
@@ -612,7 +655,10 @@
                     <p><strong>1. Create a test .env file:</strong></p>
                     <div class="command-block">echo "SECRET_KEY=test123" > .env</div>
 
-                    <p style="margin-top: 15px;"><strong>2. Try to ask Claude Code to read it:</strong></p>
+                    <p style="margin-top: 15px;"><strong>2. Check VS Code:</strong></p>
+                    <p style="margin-top: 5px;">The .env file should not appear in the Explorer sidebar (it's hidden by .vscode/settings.json)</p>
+
+                    <p style="margin-top: 15px;"><strong>3. Try to ask Claude Code to read it:</strong></p>
                     <p style="margin-top: 5px;">Use Claude Code and try: "Read the .env file"</p>
                     <p style="margin-top: 5px;"><em>Expected: Access denied error</em></p>
                 </div>
@@ -637,6 +683,12 @@
                             <td><code>.claude/settings.json</code></td>
                             <td>Permission rules for secret files</td>
                             <td>Claude Code</td>
+                            <td>✓ Yes</td>
+                        </tr>
+                        <tr>
+                            <td><code>.vscode/settings.json</code></td>
+                            <td>UI file hiding and search exclusion</td>
+                            <td>VS Code</td>
                             <td>✓ Yes</td>
                         </tr>
                         <tr>
@@ -698,6 +750,9 @@
                 <h3>Q: What if Claude Code shows an error about permissions?</h3>
                 <p><strong>A:</strong> This is working as intended. It means you're trying to access a protected secret file. This is a good sign that the protection is active.</p>
 
+                <h3>Q: Why are files hidden in VS Code?</h3>
+                <p><strong>A:</strong> VS Code hides protected files using the <code>.vscode/settings.json</code> configuration. This reduces the chance of accidental interaction and provides an additional UI-level layer of protection.</p>
+
                 <h3>Q: Does this slow down development?</h3>
                 <p><strong>A:</strong> No. The restrictions are transparent. You simply can't ask AI about secrets, which is the desired behavior. Use environment variables and configuration patterns instead.</p>
 
@@ -712,10 +767,11 @@
                 <ul class="checklist">
                     <li><strong>Automatic Protection:</strong> No setup needed - security applies to all team members</li>
                     <li><strong>Multi-Agent Coverage:</strong> Claude Code, OpenCode, Zed AI, and Gemini all block sensitive files; Copilot warns</li>
+                    <li><strong>VS Code Integration:</strong> Sensitive files hidden from UI to reduce accidental interaction</li>
                     <li><strong>Team-Wide:</strong> Settings are committed to the repository and work for everyone</li>
-                    <li><strong>Defense in Depth:</strong> Six complementary security layers (5 AI tools + Git)</li>
-                    <li><strong>Comprehensive Rules:</strong> Each tool has appropriate permission blocking for its architecture</li>
-                    <li><strong>Multiple Mechanisms:</strong> Hard blocks (Claude, OpenCode, Zed), file filtering + redaction (Gemini), behavioral guidance (Copilot)</li>
+                    <li><strong>Defense in Depth:</strong> Seven complementary security layers (6 AI tools + Git + VS Code)</li>
+                    <li><strong>Comprehensive Rules:</strong> Each tool has appropriate protection for its architecture</li>
+                    <li><strong>Multiple Mechanisms:</strong> Hard blocks (Claude, OpenCode, Zed), UI hiding (VS Code), file filtering + redaction (Gemini), behavioral guidance (Copilot)</li>
                     <li><strong>User-Friendly:</strong> Clear error messages and guidance for proper usage</li>
                     <li><strong>Verified:</strong> Tested and confirmed working across all agents</li>
                 </ul>
@@ -724,7 +780,7 @@
 
         <div class="footer">
             <p>🔒 <strong>AI Security Guide</strong> | Generated for project team</p>
-            <p style="margin-top: 10px; color: #999;">Last Updated: May 28, 2026</p>
+            <p style="margin-top: 10px; color: #999;">Last Updated: June 5, 2026</p>
             <p style="margin-top: 10px; font-size: 0.85em;">For questions or concerns, contact your security team</p>
         </div>
     </div>
